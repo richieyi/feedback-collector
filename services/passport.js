@@ -6,6 +6,18 @@ const keys = require('../config/keys');
 // Pull User model out of Mongoose
 const User = mongoose.model('users');
 
+// Allows us to take User and generate unique piece of info from it and pass to cookie
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+// Search user collection by id and turn back into User
+passport.deserializeUser((id, done) => {
+	User.findById(id).then(user => {
+		done(null, user);
+	});
+});
+
 // Tell Passport to use Google oauth strategy
 passport.use(
 	new GoogleStrategy(
@@ -14,7 +26,6 @@ passport.use(
 			clientSecret: keys.googleClientSecret,
 			callbackURL: '/auth/google/callback'
 		},
-		// Do something with received access token
 		(accessToken, refreshToken, profile, done) => {
 			// Find possible existing user in DB
 			User.findOne({ googleId: profile.id }).then(existingUser => {
