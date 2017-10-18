@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 
 class Header extends Component {
+	renderContent() {
+		switch (this.props.auth) {
+			case null:
+				return;
+			case false:
+				return (
+					<li>
+						<a href="/auth/google">Login With Google</a>
+					</li>
+				);
+			default:
+				return (
+					<li>
+						<a>Logout</a>
+					</li>
+				);
+		}
+	}
 	render() {
 		return (
 			<nav>
@@ -8,11 +26,7 @@ class Header extends Component {
 					<a href="/" className="left brand-logo">
 						FeedbackCollector
 					</a>
-					<ul className="right">
-						<li>
-							<a>Login With Google</a>
-						</li>
-					</ul>
+					<ul className="right">{this.renderContent()}</ul>
 				</div>
 			</nav>
 		);
