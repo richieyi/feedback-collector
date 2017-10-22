@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-	if (!user) {
+	if (!req.user) {
 		// 401 === unauthorized
 		return res.status(401).send({ error: 'You must log in!' });
 	}
