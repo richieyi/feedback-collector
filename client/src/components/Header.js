@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Payments from './Payments';
+import Payments from '../containers/Payments';
 
 class Header extends Component {
 	renderContent() {
