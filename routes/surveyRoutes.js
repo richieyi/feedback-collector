@@ -8,8 +8,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-	// Verify that user is logged in &
-	// verify that they have enough credits
+	// Verify that user is logged in & verify that they have enough credits
 	app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
 		// Pull properties from req.body
 		const { title, subject, body, recipients } = req.body;
@@ -29,5 +28,6 @@ module.exports = app => {
 
 		// Send email via Mailer
 		const mailer = new Mailer(survey, surveyTemplate(survey));
+		mailer.send();
 	});
 };
