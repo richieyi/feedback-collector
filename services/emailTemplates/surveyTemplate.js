@@ -1,3 +1,5 @@
+const keys = require('../../config/keys');
+
 module.exports = survey => {
 	// Take survey and return string that represents HTML we want to show
 	return `
@@ -9,10 +11,10 @@ module.exports = survey => {
 					<p>${survey.body}</p>
 					<div style="display: flex;">
 						<div>
-							<a href="http://localhost:3000">Yes</a>
+							<a href="${keys.redirectDomain}/api/surveys/thanks">Yes</a>
 						</div>
 						<div>
-							<a href="http://localhost:3000">No</a>
+							<a href="${keys.redirectDomain}/api/surveys/thanks">No</a>
 						</div>
 					</div>
 				</div>
