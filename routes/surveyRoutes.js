@@ -9,7 +9,7 @@ const Survey = mongoose.model('surveys');
 
 module.exports = app => {
 	// Verify that user is logged in & verify that they have enough credits
-	app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
 		// Pull properties from req.body
 		const { title, subject, body, recipients } = req.body;
 
@@ -28,6 +28,19 @@ module.exports = app => {
 
 		// Send email via Mailer
 		const mailer = new Mailer(survey, surveyTemplate(survey));
-		mailer.send();
+		try {
+			await mailer.send();
+			await survey.save();
+
+			// Dock user a credit after sending survey
+			req.user.credits -= 1;
+			const user = await req.user.save();
+
+			// Send user to allow authReducer to update header
+			res.send(user);
+		} catch (err) {
+			// 422 === Unprocessable Entity
+			res.status(422).send(err);
+		}
 	});
 };
