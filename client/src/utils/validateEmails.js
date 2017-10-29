@@ -8,7 +8,7 @@ export default emails => {
 		.map(email => email.trim()) // remove leading/trailing whitespace
 		.filter(email => re.test(email) === false); // return invalid emails
 
-	if (invalidEmails) {
+	if (invalidEmails.length) {
 		return `These emails are invalid: ${invalidEmails}`;
 	}
 
