@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Landing from './Landing';
+import Dashboard from './Dashboard';
 import Header from '../containers/Header';
 
-const Dashboard = () => <h2>Dashboard</h2>;
 const SurveyNew = () => <h2>SurveyNew</h2>;
 
 class App extends Component {
