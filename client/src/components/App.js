@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Landing from './Landing';
 import Dashboard from './Dashboard';
-import Header from '../containers/Header';
 
-const SurveyNew = () => <h2>SurveyNew</h2>;
+import SurveyNew from './surveys/SurveyNew';
+import Header from '../containers/Header';
 
 class App extends Component {
 	componentDidMount() {
