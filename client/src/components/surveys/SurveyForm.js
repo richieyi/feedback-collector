@@ -56,7 +56,7 @@ function validate(values) {
 	// Create empty errors object
 	const errors = {};
 
-	errors.emails = validateEmails(values.emails || '');
+	errors.emails = validateEmails(values.recipients || '');
 
 	// redux-form automatically matches up error with proper Field
 	formFields.forEach(({ name }) => {

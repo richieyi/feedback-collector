@@ -3,7 +3,7 @@ import React from 'react';
 import formFields from './formFields';
 
 // SurveyFormReview shows users their form inputs for review
-const SurveyFormReview = ({ onCancel, formValues, submitSurvey }) => {
+const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
 	const reviewFields = formFields.map(({ name, label }) => {
 		return (
 			<div key={name}>
@@ -25,7 +25,7 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey }) => {
 			</button>
 			<button
 				className="green btn-flat right white-text"
-				onClick={() => submitSurvey(formValues)}
+				onClick={() => submitSurvey(formValues, history)}
 			>
 				Send Survey
 				<i className="material-icons right">email</i>
