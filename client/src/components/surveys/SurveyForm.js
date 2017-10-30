@@ -70,6 +70,7 @@ function validate(values) {
 	return errors;
 }
 
+// Wire up reduxForm helper
 export default reduxForm({
 	validate,
 	form: 'surveyForm',

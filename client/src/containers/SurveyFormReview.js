@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import * as actions from '../store/actions';
 
 import SurveyFormReview from '../components/surveys/SurveyFormReview';
 
@@ -8,4 +9,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps)(SurveyFormReview);
+export default connect(mapStateToProps, actions)(SurveyFormReview);

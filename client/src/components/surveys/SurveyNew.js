@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { reduxForm } from 'redux-form';
 
 // SurveyNew shows SurveyForm and SurveyFormReview
 import SurveyForm from './SurveyForm';
@@ -30,4 +31,8 @@ class SurveyNew extends Component {
 	}
 }
 
-export default SurveyNew;
+// Wire up reduxForm helper
+// Will destroyOnUnmount by default when navigating away from SurveyNew component
+export default reduxForm({
+	form: 'surveyForm'
+})(SurveyNew);
