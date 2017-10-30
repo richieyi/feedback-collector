@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // SurveyNew shows SurveyForm and SurveyFormReview
 import SurveyForm from './SurveyForm';
-import SurveyFormReview from './SurveyFormReview';
+import SurveyFormReview from '../../containers/SurveyFormReview';
 
 class SurveyNew extends Component {
 	constructor(props) {
