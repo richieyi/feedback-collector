@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const Path = require('path-parser');
+const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -13,7 +16,32 @@ module.exports = app => {
 	});
 
 	app.post('/api/surveys/webhooks', (req, res) => {
-		console.log(req.body);
+		// Pull variables out of path
+		const p = new Path('/api/surveys/:surveyId/:choice');
+
+		// Use lodash chain method to refactor
+		const events = _.chain(req.body)
+			// Map over array of events
+			.map(({ email, url }) => {
+				// Check for match and return object, or return null
+				const match = p.test(new URL(url).pathname);
+				// If match, return object with these properties
+				if (match) {
+					return {
+						email,
+						surveyId: match.surveyId,
+						choice: match.choice
+					};
+				}
+			})
+			// Return only event objects
+			.compact()
+			// Remove records of duplicate emails on same survey
+			.uniqBy('email', 'surveyId')
+			// Return underlying array
+			.value();
+
+		console.log(events);
 		res.send({});
 	});
 
