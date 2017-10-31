@@ -12,6 +12,11 @@ module.exports = app => {
 		res.send('Thanks for answering!');
 	});
 
+	app.post('/api/surveys/webhooks', (req, res) => {
+		console.log(req.body);
+		res.send({});
+	});
+
 	// Verify that user is logged in & verify that they have enough credits
 	app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
 		// Pull properties from req.body
