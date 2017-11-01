@@ -11,7 +11,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-	app.get('/api/surveys/thanks', (req, res) => {
+	app.get('/api/surveys/:surveyId/:choice', (req, res) => {
 		res.send('Thanks for answering!');
 	});
 
@@ -20,7 +20,7 @@ module.exports = app => {
 		const p = new Path('/api/surveys/:surveyId/:choice');
 
 		// Use lodash chain method to refactor
-		const events = _.chain(req.body)
+		_.chain(req.body)
 			// Map over array of events
 			.map(({ email, url }) => {
 				// Check for match and return object, or return null
@@ -38,10 +38,30 @@ module.exports = app => {
 			.compact()
 			// Remove records of duplicate emails on same survey
 			.uniqBy('email', 'surveyId')
-			// Return underlying array
+			// Run over every single element in events aray
+			.each(({ surveyId, email, choice }) => {
+				// Find AND update survey with a matching surveyId
+				Survey.updateOne(
+					{
+						_id: surveyId,
+						recipients: {
+							// $ is match for setting responded to true below
+							$elemMatch: { email: email, responded: false }
+						}
+					},
+					{
+						// Increment choice by 1
+						$inc: { [choice]: 1 },
+						// Find matching $ recipient from above
+						// and set responded to true
+						$set: { 'recipients.$.responded': true },
+						// Set last responded with current Date
+						lastResponded: new Date()
+					}
+				).exec(); // Execute query
+			})
 			.value();
 
-		console.log(events);
 		res.send({});
 	});
 
